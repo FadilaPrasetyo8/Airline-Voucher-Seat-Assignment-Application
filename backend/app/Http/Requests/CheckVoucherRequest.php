@@ -12,7 +12,7 @@ class CheckVoucherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,17 @@ class CheckVoucherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'flightNumber' => 'required|string|max:255',
+            'date' => 'required|date',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'flightNumber.required' => 'The flight number field is required.',
+            'date.required' => 'The date field is required.',
+            'date.date' => 'The date must be a valid date.',
         ];
     }
 }

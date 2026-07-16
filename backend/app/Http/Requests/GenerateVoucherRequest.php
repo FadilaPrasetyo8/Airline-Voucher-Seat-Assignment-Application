@@ -12,7 +12,7 @@ class GenerateVoucherRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,24 @@ class GenerateVoucherRequest extends FormRequest
      */
     public function rules(): array
     {
+            
         return [
-            //
+            'name' => 'required|string|max:255',
+            'id' => 'required|string|max:255',
+            'flightNumber' => 'required|string|max:255',
+            'date' => 'required|date',
+            'aircraft' => 'required|in:ATR,Airbus 320,Boeing 737 Max',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'flightNumber.required' => 'Flight number is required.',
+            'date.required' => 'Flight date is required.',
+            'date.date' => 'Flight date must be a valid date.',
+            'aircraft.required' => 'Aircraft type is required.',
+            'aircraft.in' => 'The selected aircraft type is invalid.',
         ];
     }
 }
