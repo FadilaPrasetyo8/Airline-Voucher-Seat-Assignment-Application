@@ -10,13 +10,13 @@ class AircraftLayout
             'columns' => ['A', 'C', 'D', 'F'],
         ],
 
-        'Airbus A320' => [
+        'Airbus 320' => [
             'rows' => 32,
             'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
         ],
 
-        'Boeing 737 Max 9' => [
-            'rows' => 33,
+        'Boeing 737 Max' => [
+            'rows' => 32,
             'columns' => ['A', 'B', 'C', 'D', 'E', 'F'],
         ],
     ];
