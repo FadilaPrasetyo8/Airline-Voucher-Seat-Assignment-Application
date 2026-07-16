@@ -22,6 +22,11 @@ return new class extends Migration
             $table->string('seat2');
             $table->string('seat3');
             $table->timestamps();
+
+            $table->unique(
+                ['flight_number', 'flight_date'],
+                'vouchers_flight_number_flight_date_unique'
+            );
         });
 
     }
