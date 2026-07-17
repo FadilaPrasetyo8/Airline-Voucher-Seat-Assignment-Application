@@ -1,22 +1,38 @@
 "use client";
 
+import React from "react";
 import { FlightSearchForm } from "@/components/forms/flight-search-form";
 import { LoadingSpinner } from "@/components/shared/loading-spinner";
 import { useCheck } from "@/hooks/use-check";
+import { useGenerate } from "@/hooks/use-generate";
 import type { GenerateVoucherFormValues } from "@/schemas/generate-voucher.schema";
 import { Plane } from "lucide-react";
+import { toast } from "sonner";
 
 export default function HomePage() {
+  const [seats, setSeats] = React.useState<string[]>([]);
+
   const { mutateAsync: check, isPending } = useCheck();
+  const { mutateAsync: generate, isPending: isGenerating } = useGenerate();
 
   async function handleSubmit(data: GenerateVoucherFormValues) {
     try {
-      await check({
+      setSeats([])
+      const response =await check({
         flightNumber: data.flightNumber,
         date: data.date,
       });
 
-      
+      if (response.exists) {
+        toast.error("Voucher already exists");
+        return;
+      }
+
+      const res = await generate(data);  
+      setSeats(res.seats);                
+      toast.success("Voucher berhasil dibuat");
+
+
     } catch (error) {
       console.error(error);
     }
@@ -50,19 +66,32 @@ export default function HomePage() {
               <Plane className="size-4" aria-hidden="true" />
             </div>
             <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Flight Management Dashboard
+            Airline Voucher Seat Assignment
             </h1>
             <p className="mt-3 text-base text-muted-foreground sm:text-lg">
-              Search, manage, and monitor your airline operations from one
-              centralized platform.
+            Generate three random seat assignments for voucher winners.
             </p>
           </div>
 
-          <FlightSearchForm onSubmit={handleSubmit} isLoading={isPending} />
+          <FlightSearchForm onSubmit={handleSubmit} isLoading={isPending || isGenerating} />
 
-          <p className="mt-6 text-center text-xs text-muted-foreground">
-            Powered by AeroVista &middot; REST API Architecture
-          </p>
+          {seats.length > 0 && (
+          <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-6 text-center">
+            <p className="mb-3 text-sm font-medium text-green-700">
+              Assigned Seats
+            </p>
+            <div className="flex justify-center gap-3">
+              {seats.map((seat) => (
+                <span
+                  key={seat}
+                  className="rounded-lg bg-green-600 px-4 py-2 text-lg font-bold text-white"
+                >
+                  {seat}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         </div>
       </main>
     </div>

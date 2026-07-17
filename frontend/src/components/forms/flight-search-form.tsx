@@ -54,9 +54,9 @@ export function FlightSearchForm({
             <Search className="size-5 text-primary" aria-hidden="true" />
           </div>
           <div>
-            <CardTitle className="text-xl">Book a Flight</CardTitle>
+            <CardTitle>Generate Vouchers</CardTitle>
             <CardDescription>
-              Enter your travel details to find available flights
+              Enter crew and flight details to assign voucher seats
             </CardDescription>
           </div>
         </div>
@@ -140,7 +140,7 @@ export function FlightSearchForm({
 
         <CardFooter className="flex flex-col gap-3 border-t border-border/60 sm:flex-row sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            All fields are validated before submit
+            Three unique seats will be assigned automatically
           </p>
           <Button
             type="submit"
@@ -148,7 +148,7 @@ export function FlightSearchForm({
             className="w-full sm:w-auto"
           >
             <Search className="size-4" aria-hidden="true" />
-            {isLoading ? "Searching..." : "Search Flights"}
+            {isLoading ? "Generating..." : "Generate Vouchers"}
           </Button>
         </CardFooter>
       </form>
