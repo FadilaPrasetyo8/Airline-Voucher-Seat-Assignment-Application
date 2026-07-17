@@ -16,7 +16,7 @@ function getEnvVar(key: RequiredEnvVar): string {
 }
 
 export const env = {
-  apiUrl: getEnvVar("NEXT_PUBLIC_API_URL"),
+  apiUrl: getEnvVar("NEXT_PUBLIC_API_URL") || "http://localhost:8000",
   appName: process.env.NEXT_PUBLIC_APP_NAME ?? "AeroVista",
   isDevelopment: process.env.NODE_ENV === "development",
   isProduction: process.env.NODE_ENV === "production",

@@ -4,43 +4,37 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-interface FormFieldProps {
+interface FormFieldProps extends Omit<React.ComponentProps<"input">, "id"> {
   id: string;
   label: string;
-  placeholder?: string;
-  type?: string;
-  className?: string;
-  disabled?: boolean;
+  error?: string;
   required?: boolean;
-  /** For type="date" — e.g. today's date to block past days */
-  min?: string;
-  max?: string;
 }
 
 export function FormField({
   id,
   label,
-  placeholder,
-  type = "text",
-  className,
-  disabled = false,
+  error,
   required = false,
-  min,
-  max,
+  className,
+  ...props
 }: FormFieldProps) {
   return (
     <div className={cn("space-y-2", className)}>
-      <Label htmlFor={id}>{label} {required && <span className="text-red-500">*</span>}</Label>
+      <Label htmlFor={id}>
+        {label} {required && <span className="text-red-500">*</span>}
+      </Label>
       <Input
         id={id}
-        type={type}
-        placeholder={placeholder}
-        disabled={disabled}
-        aria-disabled={disabled}
-        required={required}
-        min={min}
-        max={max}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${id}-error` : undefined}
+        {...props}
       />
+      {error ? (
+        <p id={`${id}-error`} className="text-sm text-red-500">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
